@@ -24,10 +24,10 @@ while(True):
 
     # Display the resulting frame
     cv2.imshow('frame', frame)
-    file_name = '{name}_{count}.jpg'
-    
-    cv2.imwrite(os.path.join(name_dir, file_name), frame)
+    file_name = '{}_{}.jpg'.format(name, count)
     count += 1
+    cv2.imwrite(os.path.join(name_dir, file_name), frame)
+   
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
