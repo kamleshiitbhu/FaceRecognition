@@ -3,32 +3,34 @@ import face_recognition
 import cv2
 from generate_encoding import *
 
-cap = cv2.VideoCapture(0)
 
 folders = ['Kamlesh', 'Manoj', 'Shubham']
-
 encoding_dict = {}
 for folder in folders:
     encode = getEncoding(folder)
     encoding_dict[folder] = encode
 
+cap = cv2.VideoCapture(0)
+
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
-
+    if ret == False:
+        continue
+    small_frame = cv2.resize(frame, (0, 0), fx=0.1, fy=0.1)
     # Our operations on the frame come here
     #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    face_locations = face_recognition.face_locations(frame)
-    face_encodings = face_recognition.face_encodings(frame)
+    face_locations = face_recognition.face_locations(small_frame, number_of_times_to_upsample = 3)
+    face_encodings = face_recognition.face_encodings(small_frame, face_locations)
 
     for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
         if len(face_encoding) <= 0:
             continue
         #color for blue pass (255, 0, 0)
-        frame = cv2.rectangle(frame, (left, top), (right, bottom), color=(255, 255, 255), thickness = 2)
-        result = face_recognition.compare_faces(list(encoding_dict.values()), face_encoding)
+        frame = cv2.rectangle(frame, (left * 10, top * 10), (right * 10, bottom * 10), color=(255, 255, 255), thickness = 1)
+        result = face_recognition.compare_faces(list(encoding_dict.values()), face_encoding, tolerance = 0.6)
         name = (folders[np.argmax(result)])
-        cv2.putText(frame, name, (bottom, left), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0,255,0), 2)
+        cv2.putText(frame, name, (left * 10 + 6, bottom * 10 - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0,255,0), 2)
 
 
     # Display the resulting frame
