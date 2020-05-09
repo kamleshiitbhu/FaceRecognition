@@ -1,13 +1,14 @@
 import numpy as np
+import os
 import face_recognition
 import cv2
 from generate_encoding import *
 
 
-folders = ['Kamlesh', 'Manoj', 'Shubham']
+folders = os.listdir('./data')
 encoding_dict = {}
 for folder in folders:
-    encode = getEncoding(folder)
+    encode = get_encoding(os.path.join('data', folder))
     encoding_dict[folder] = encode
 
 cap = cv2.VideoCapture(0)

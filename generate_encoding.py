@@ -6,10 +6,10 @@ import face_recognition
 import cv2
 
 
-def getEncoding(folder):
+def get_encoding(folder):
     images = os.listdir(folder)
-
     encoding = []
+
     for image in images:
         frame = cv2.imread(os.path.join(folder,image))
         encode = face_recognition.face_encodings(frame)
