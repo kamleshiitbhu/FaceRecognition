@@ -4,9 +4,10 @@ A facial recognition system is a technology capable of identifying or verifying 
 * opencv-python 
 * face_recognition
 * numpy
+* pandas
 
 ```bash
-pip install opencv-python face_recognition numpy
+pip install opencv-python face_recognition numpy pandas
 ```
 ## Usage
 ### generate dataset
