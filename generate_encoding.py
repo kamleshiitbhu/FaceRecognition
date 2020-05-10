@@ -19,3 +19,12 @@ def get_encoding(folder):
     encoding = np.vstack(encoding)
     encoding = np.average(encoding, axis = 0)
     return encoding
+
+folders = os.listdir('./data')
+encoding_dict = {}
+for folder in folders:
+    encode = get_encoding(os.path.join('data', folder))
+    encoding_dict[folder] = encode
+
+df = pd.DataFrame(encoding_dict)
+df.to_csv('face_encodings.csv', index=True)

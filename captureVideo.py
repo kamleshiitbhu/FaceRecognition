@@ -1,15 +1,11 @@
 import numpy as np
+import pandas as pd
 import os
 import face_recognition
 import cv2
-from generate_encoding import *
 
-
-folders = os.listdir('./data')
-encoding_dict = {}
-for folder in folders:
-    encode = get_encoding(os.path.join('data', folder))
-    encoding_dict[folder] = encode
+encoding_dict = dict(pd.read_csv('face_encodings.csv'))
+folders = list(encoding_dict.keys())
 
 cap = cv2.VideoCapture(0)
 
@@ -20,7 +16,7 @@ while(True):
         continue
     small_frame = cv2.resize(frame, (0, 0), fx=0.1, fy=0.1)
     # Our operations on the frame come here
-    #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     face_locations = face_recognition.face_locations(small_frame, number_of_times_to_upsample = 3)
     face_encodings = face_recognition.face_encodings(small_frame, face_locations)
 
