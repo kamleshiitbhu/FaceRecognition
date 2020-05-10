@@ -27,4 +27,4 @@ for folder in folders:
     encoding_dict[folder] = encode
 
 df = pd.DataFrame(encoding_dict)
-df.to_csv('face_encodings.csv', index=True)
+df.to_csv('face_encodings.csv', index=False)
